@@ -33,9 +33,6 @@ export default {
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-    '@nuxtjs.dev/config-modules',
-  ],
 
   build: {
     postCss: {
