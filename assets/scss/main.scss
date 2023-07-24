@@ -1,0 +1,135 @@
+@import './variables';
+body {
+  margin:  0px;
+  background-color: $background;
+}
+
+a {
+  text-decoration-line: none;
+  display: block;
+  line-height: 0px;
+}
+ol, ul {
+	list-style: none;
+}
+.button {
+  &__wrapper {
+    max-width: 40px;
+    width: 100%;
+  }
+  &__wrapp {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 30px;
+  }
+  &__download {
+    margin-right: 8px;
+  }
+}
+
+.input {
+  height: 30px;
+  border: 1px solid $border-color;
+  border-radius: 8px;
+  padding-left: 8px;
+  margin-right: 2px;
+  font-size: 12px;
+  line-height: 18px;
+  width: 100%;
+}
+
+.btn {
+  cursor: pointer;
+  padding-left: 16px;
+  padding-right: 16px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 16px;
+}
+
+.btn-primary {
+  border: 1px solid;
+  font-weight: 400;
+  color: white;
+  background-color: $color-primary;
+  border-color: $color-primary;
+  &:hover {
+    background-color: $color-primary-hover;
+    border-color: $color-primary-hover;
+  }
+  &:focus {
+    background-color: $color-primary-focus;
+    border-color: $color-primary-focus;
+  }
+  &:disabled {
+    color: $disabled-text;
+    background-color: $color-disabled;
+    border-color: $color-disabled;
+  }
+}
+
+.btn-plain {
+  border: 1px solid;
+  font-weight: 400;
+  color: $color-primary;
+  background-color: white;
+  border-color: $color-primary;
+  &:hover {
+    background-color: $color-primary-plain;
+    border-color: $color-primary-plain-hover;
+    color: $color-primary-plain-hover;
+  }
+  &:focus {
+    background-color: $color-primary-plain-focus;
+    border-color: $color-primary;
+  }
+  &:disabled {
+    color: $disabled-text;
+    background-color: white;
+    border-color: $disabled-text;
+  }
+}
+
+.link {
+  cursor: pointer;
+  color: $color-el-primary;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    color: $color-primary-hover;
+  }
+  &:focus {
+    color: $color-primary-focus !important;
+  }
+  &--red {
+    color: $el-color-red;
+    &:hover {
+      color: $el-color-red;
+    }
+    &:focus {
+      color: $el-color-red !important;
+    }
+  }
+}
+.catalog {
+  &__title {
+    width: 100%;
+    max-width: 480px;
+    font-size: 13px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: $disabled-text;
+  }
+  &__price {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 19px;
+    text-transform: uppercase;
+    color: $el-color-red;
+  }
+}
