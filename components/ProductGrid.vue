@@ -28,15 +28,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 
 export default {
   name: 'ProductGrid',
 
   computed: {
-    ...mapGetters({
-      products: 'Products/filteredPoducts',
-    }),
   },
 };
 </script>

@@ -24,8 +24,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import Vue, { PropType } from "vue";
+<script>
+import Vue from "vue";
 
 export default Vue.extend({
   name: 'Pagination',
@@ -34,7 +34,7 @@ export default Vue.extend({
       type: Object,
       default: () => ({
         page: 1,
-        page_size: 10,
+        page_size: 50,
         count: 0,
       }),
     },
@@ -45,6 +45,7 @@ export default Vue.extend({
     pagesCounter() {
       if (this.params.count === 0) return 1;
       return Math.ceil(this.params.count / this.params.page_size);
+     
     }
   },
 

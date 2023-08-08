@@ -11,7 +11,7 @@
       </nuxt-link>
 
       <div
-        v-if="currentProduct"
+        v-if="currentComment"
         class="goods__item"
       >
         <div
@@ -21,8 +21,8 @@
           <div class="goods__image-wrap">
             <img
               class="goods__image"
-              :src="currentProduct.image"
-              :alt="currentProduct.title"
+              :src="currentComment.image"
+              :alt="currentComment.title"
             >
           </div>
         </div>
@@ -33,7 +33,7 @@
               <span class="">Product name</span>
             </div>
             <div class="goods__text">
-              {{ currentProduct.title }}
+              {{ currentComment.postId }}
             </div>
           </li>
       
@@ -43,7 +43,7 @@
             </div>
             <div class="goods__text goods__text-accent">
               <span class="goods__text">Rating</span>
-              {{ currentProduct.rating.rate }}
+              {{ currentComment.rating.rate }}
               <span class="goods__text">out of 5</span>
             </div>
           </li>
@@ -53,7 +53,7 @@
               <span class="">Product description</span>
             </div>
             <div class="goods__text">
-              {{ currentProduct.description }}
+              {{ currentComment.description }}
             </div>
           </li>
 
@@ -62,7 +62,7 @@
               <span class="">Product price</span>
             </div>
             <div class="goods__text goods__text-accent">
-              {{ currentProduct.price }} $
+              {{ currentComment.price }} $
             </div>
           </li>
         </ul>
@@ -77,7 +77,6 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { mapActions, mapGetters } from 'vuex'
 import axios from 'axios'
 
 export default Vue.extend({
@@ -85,14 +84,11 @@ export default Vue.extend({
 
   data() {
     return {
-      productId: this.$route.params.id,
+      //productId: this.$route.params.id,
     };
   },
 
   computed: {
-    ...mapGetters({
-      products: 'Products/products',
-    }),
 
     id() {
       return this.$route.params.id;
@@ -110,12 +106,9 @@ export default Vue.extend({
   },
 
   methods: {
-    ...mapActions({
-      setProducts: 'Products/setProducts',
-    }),
 
     loadProducts() {
-      const url = 'https://fakestoreapi.com/products';
+      const url = 'https://jsonplaceholder.typicode.com/comments';
       axios.get(url)
         .then(({ data }) => {
           this.setProducts(data);
