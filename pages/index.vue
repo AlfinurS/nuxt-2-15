@@ -6,6 +6,7 @@
         type="text"
         class="catalog__search-input input"
         placeholder="Поиск комментариев"
+        @input="searchProducts"
       >
       <div class="catalog__head-btns">
         <Pagination
@@ -56,22 +57,11 @@ export default Vue.extend({
       paginationData: initPaginationData(),
       comments: [],
       apiUrl:'https://jsonplaceholder.typicode.com/comments',
-      
+      filteredComments:[],
     }
   },
 
   computed: {
-    filteredComments() {
-      if (this.search !== "") {
-        const regexp = new RegExp(this.search, "i");
-        let filtered = this.comments.filter((comment) =>
-          regexp.test(comment.name)
-        );
-        
-        return filtered;
-      }
-      return this.comments;
-    },
   },
 
   methods: {
@@ -81,18 +71,36 @@ export default Vue.extend({
         .then(({ data }) => {
           this.comments = [...data];
           this.paginationData.count = data.length;
-          this.setSearch();
+          this.filterProducts();
         })
         .catch(error => {
           console.log(error);
         })
     },
 
-    setSearch(data, params) {
-      this.search = data;
-      //const url = this.apiUrl;
-      //const params = this.paginationData;
-      params.count = data.length;
+   deepFilteredComments() {
+        const regexp = new RegExp(this.search, "i");
+        const filteredArray = this.comments.filter((comment) =>
+          regexp.test(comment.name)
+        );
+        return filteredArray;
+    },
+
+    setSearch({search, params}) {
+      if (search !== '') {
+         const filtered = this.comments.filter(
+          (comment) => {
+          return this.deepFilteredComments(comment, search);
+          },
+        );
+      params.count = filtered.length;
+      this.filteredComments = JSON.parse(JSON.stringify(this.filterByPagination(filtered, params)));
+      } else {
+        this.filteredComments = JSON.parse(JSON.stringify(this.filterByPagination(this.comments, params)));
+      }
+    },
+
+    filterByPagination(data, params) {
       const firstIndex = params.page * params.page_size - params.page_size;
       let lastIndex = params.page * params.page_size;
       if (lastIndex > params.count) {
@@ -101,15 +109,24 @@ export default Vue.extend({
       return data.slice(firstIndex, lastIndex);
     },
 
+    searchProducts() {
+      this.filterProducts();
+    },
+
+    filterProducts() {
+      this.setSearch({search: this.search, params: this.paginationData});
+    },
+
     handleCurrentChange(val) {
       this.paginationData.page = val;
-      this.filteredComments();
-      this.setSearch({search: this.search, params: this.paginationData});
+      this.filterProducts();
     },
   },
 
   mounted (){
-    this.loadComments();
+    if (this.comments.length === 0) {
+      this.loadComments();
+    }
   }
 })
 </script>
