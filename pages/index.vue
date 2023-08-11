@@ -78,27 +78,37 @@ export default Vue.extend({
         })
     },
 
-   deepFilteredComments() {
-        const regexp = new RegExp(this.search, "i");
-        const filteredArray = this.comments.filter((comment) =>
-          regexp.test(comment.name)
-        );
-        return filteredArray;
-    },
+   deepFilteredComments(objOrString, search) {
+        const regexp = new RegExp(search, "i");
+        if (typeof objOrString === 'number' && objOrString !== undefined) {
+          return regexp.test(objOrString.toString());
+        }
+        if (typeof objOrString === 'string') return regexp.test(objOrString);
+        let result = false;
+        Object.keys(objOrString).forEach((key) => {
+          if (this.deepFilteredComments(objOrString[key], search)) { 
+            result = true;
+          }
+        })
+        console.log(result)
+        return result;
+  },
+
 
     setSearch({search, params}) {
-      if (search !== '') {
-         const filtered = this.comments.filter(
-          (comment) => {
-          return this.deepFilteredComments(comment, search);
-          },
-        );
-      params.count = filtered.length;
-      this.filteredComments = JSON.parse(JSON.stringify(this.filterByPagination(filtered, params)));
-      } else {
-        this.filteredComments = JSON.parse(JSON.stringify(this.filterByPagination(this.comments, params)));
-      }
-    },
+        if (search !== '') {
+          const filtered = this.comments.filter(
+            (comment) => {
+            return this.deepFilteredComments(comment, search);
+            },
+          );
+          console.log(filtered);
+        params.count = filtered.length;
+        this.filteredComments = JSON.parse(JSON.stringify(this.filterByPagination(filtered, params)));
+        } else {
+          this.filteredComments = JSON.parse(JSON.stringify(this.filterByPagination(this.comments, params)));
+        }
+      },
 
     filterByPagination(data, params) {
       const firstIndex = params.page * params.page_size - params.page_size;
