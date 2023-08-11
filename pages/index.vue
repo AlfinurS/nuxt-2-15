@@ -78,7 +78,7 @@ export default Vue.extend({
         })
     },
 
-   deepFilteredComments(objOrString, search) {
+/*    deepFilteredComments(objOrString, search) {
         const regexp = new RegExp(search, "i");
         if (typeof objOrString === 'number' && objOrString !== undefined) {
           return regexp.test(objOrString.toString());
@@ -92,9 +92,9 @@ export default Vue.extend({
         })
         console.log(result)
         return result;
-  },
+  }, */
 
-
+/* 
     setSearch({search, params}) {
         if (search !== '') {
           const filtered = this.comments.filter(
@@ -102,6 +102,20 @@ export default Vue.extend({
             return this.deepFilteredComments(comment, search);
             },
           );
+          console.log(filtered);
+        params.count = filtered.length;
+        this.filteredComments = JSON.parse(JSON.stringify(this.filterByPagination(filtered, params)));
+        } else {
+          this.filteredComments = JSON.parse(JSON.stringify(this.filterByPagination(this.comments, params)));
+        }
+      },
+ */
+    setSearch({search, params}) {
+        if (search !== '') {
+        const regexp = new RegExp(this.search, "i");
+        const filtered = this.comments.filter((comment) =>
+          regexp.test(comment.name)
+        );
           console.log(filtered);
         params.count = filtered.length;
         this.filteredComments = JSON.parse(JSON.stringify(this.filterByPagination(filtered, params)));
